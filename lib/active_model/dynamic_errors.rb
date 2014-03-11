@@ -21,7 +21,7 @@ module ActiveModel
           messages.each {|m| full_messages << m }
         else
           attr_name = attribute.to_s.gsub('.', '_').humanize
-          attr_name = @base.class.human_attribute_name(attribute, :default => attr_name)
+          attr_name = @base.class.human_attribute_name(attribute, :default => attr_name).titleize
           options = { :default => "%{attribute} %{message}", :attribute => attr_name }
 
           messages.each do |m|

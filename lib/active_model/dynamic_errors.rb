@@ -13,8 +13,8 @@ module ActiveModel
     def full_messages
       full_messages = []
 
-      each do |attribute, messages|
-        messages = Array.wrap(messages)
+      _each_as_hash.each do |attribute, messages|
+        messages = Array.wrap(messages).flatten
         next if messages.empty?
 
         if attribute == :base
@@ -39,6 +39,16 @@ module ActiveModel
       end
 
       full_messages
+    end
+
+    def _each_as_hash
+      h = Hash.new
+      each do |error|
+        h[error.attribute] ||= []
+        h[error.attribute] << error.message
+        h[error.attribute].uniq!
+      end
+      h
     end
   end
 end
